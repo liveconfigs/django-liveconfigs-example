@@ -1,5 +1,10 @@
 # Change history
 
+## 05-09-2024
+- added django-liveconfigs's changes support
+- added example with sync and async configs
+- updated versions
+
 ## 01-09-2024
 - new repository address: https://github.com/liveconfigs/django-liveconfigs-example
 

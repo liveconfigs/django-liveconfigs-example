@@ -234,12 +234,18 @@ CACHES = {
 }
 
 # liveconfigs settings
-# Максимальная длина текста в значении конфига при которой отображать поле редактирования конфига как textinput
-# При длине текста в значении конфига большей этого значения - отображать поле редактирования конфига как textarea
-LC_MAX_STR_LENGTH_DISPLAYED_AS_TEXTINPUT = 50
-LC_ENABLE_PRETTY_INPUT = True
+# TODO: LIVECONFIGS_SYNCWRITE is depricated. Will remove in ver. 1.0.7
 LIVECONFIGS_SYNCWRITE = True    # sync write mode
+# ! LC_BACKGROUND_SAVE имеет приоритет над LIVECONFIGS_SYNCWRITE
+# ! Фоновое сохранение работает только при синхронной заморозке конфигов
+# ! При асинхронной заморозке сохранение происходит в "основном потоке"
+LC_BACKGROUND_SAVE = True    # save technical info in background (using Celery and etc.)
 LC_CACHE_TTL = 1    # cache TTL in seconds
+LC_LAST_READ_UPDATE_TTL = 60*60*24  # обновлять дату чтения конфига не чаще чем 1 раз за этот интервал
+LC_ENABLE_PRETTY_INPUT = True
 # Максимальная длина значения конфига (в текстовом представлении) при которой значение в списке выводится целиком
 # При бОльшей длине визуал значения будет усечен ("Длинная строка" -> "Длин ... рока")
 LC_MAX_VISUAL_VALUE_LENGTH = 50
+# Максимальная длина текста в значении конфига при которой отображать поле редактирования конфига как textinput
+# При длине текста в значении конфига большей этого значения - отображать поле редактирования конфига как textarea
+LC_MAX_STR_LENGTH_DISPLAYED_AS_TEXTINPUT = 50

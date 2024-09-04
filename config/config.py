@@ -29,14 +29,18 @@ def config_row_update_or_create_proxy(config_name: str, update_fields: dict):
 
 @receiver(config_row_update_signal, dispatch_uid="config_row_update_signal")
 def config_row_update_signal_handler(sender, config_name, update_fields, **kwargs):
+    LIVECONFIGS_SYNCWRITE = getattr(settings, 'LIVECONFIGS_SYNCWRITE', 'True')
+    LC_BACKGROUND_SAVE = getattr(settings, 'LC_BACKGROUND_SAVE', 'False')
+    background_save = LC_BACKGROUND_SAVE if hasattr(settings, 'LC_BACKGROUND_SAVE') else not LIVECONFIGS_SYNCWRITE
+
     # Пример для Celery
-    # При настройках для синхронного сохранения функция будет вызвана напрямую
-    if settings.LIVECONFIGS_SYNCWRITE:
-        config_row_update_or_create_proxy_func = config_row_update_or_create_proxy
-    # При настройках для асинхронного сохранения функция будет вызвана через delay
+    # При настройках для фонового сохранения функция будет вызвана через delay
     # FIXME: Вам нужно изменить этот код, если вы используете не Celery
-    else:
+    if background_save:
         config_row_update_or_create_proxy_func = config_row_update_or_create_proxy.delay
+    # При настройках для синхронного сохранения функция будет вызвана напрямую
+    else:
+        config_row_update_or_create_proxy_func = config_row_update_or_create_proxy
 
     config_row_update_or_create_proxy_func(config_name, update_fields)
 
