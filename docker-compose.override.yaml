@@ -6,7 +6,6 @@ x-common: &common
     dockerfile: ./docker/Dockerfile
     args:
       - REQUIREMENTS_PATH=/requirements/requirements.txt
-  image: logx-local
 
 services:
   postgres:
